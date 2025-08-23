@@ -77,7 +77,7 @@ const params = new URLSearchParams(location.search);
 const id = params.get("id");
 
 if (!id) {
-  msgEl.textContent = "ไม่พบรหัสเอกสาร";
+  msgEl.textContent = "Not found";
   disableForm(true);
 } else {
   loadSpec(id);
@@ -91,7 +91,7 @@ async function loadSpec(docId){
     const ref = doc(db, "spareparts", docId);
     const snap = await getDoc(ref);
     if (!snap.exists()){
-      msgEl.textContent = "ไม่พบข้อมูลชิ้นส่วนนี้";
+      msgEl.textContent = "Not found";
       return;
     }
 
@@ -138,18 +138,18 @@ form.addEventListener("submit", async (e)=>{
 
   const qty = Number(fQty.value);
   if (!Number.isFinite(qty) || qty <= 0){
-    alert("กรุณาใส่จำนวนที่ถูกต้อง (อย่างน้อย 1)");
+    alert("Please enter the correct quantity (at least 1)");
     fQty.focus();
     return;
   }
   if (!fTitle.value.trim() || !fName.value.trim()){
-    alert("กรุณากรอกหัวข้อและชื่อผู้คืน");
+    alert("Please fill the subject and return's name");
     return;
   }
 
   try{
     disableForm(true);
-    msgEl.textContent = "กำลังบันทึก…";
+    msgEl.textContent = "Wait";
 
     // 1) บันทึกลง collection "refunds"
     await addDoc(collection(db, "refunds"), {
@@ -179,12 +179,12 @@ form.addEventListener("submit", async (e)=>{
       note: fTitle.value.trim()
     });
 
-    msgEl.textContent = "บันทึกคำขอคืนเรียบร้อย ✔";
+    msgEl.textContent = "✅ Saved Sucessfully!!";
     setTimeout(()=>{ location.href = `detail.html?id=${encodeURIComponent(currentDoc.id)}`; }, 700);
 
   }catch(err){
     console.error(err);
-    msgEl.textContent = "บันทึกล้มเหลว: " + (err?.message || err);
+    msgEl.textContent = "Fail: " + (err?.message || err);
     disableForm(false);
   }
 });
