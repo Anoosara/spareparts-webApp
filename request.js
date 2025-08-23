@@ -136,7 +136,7 @@ form.addEventListener("submit", async (e)=>{
 
   const qtyReq = toInt(reqQty.value);
   if (!reqTitle.value.trim() || !requester.value.trim() || qtyReq < 1){
-    msgEl.textContent = "กรอกข้อมูลให้ครบและจำนวนต้องมากกว่า 0";
+    msgEl.textContent = "Please fill in complete information";
     return;
   }
 
@@ -147,11 +147,11 @@ form.addEventListener("submit", async (e)=>{
 
     await runTransaction(db, async (tx)=>{
       const partSnap = await tx.get(partRef);
-      if (!partSnap.exists()) throw new Error("ไม่พบอะไหล่นี้");
+      if (!partSnap.exists()) throw new Error("This part was not found");
 
       const d = partSnap.data();
       const prevQty = toInt(d.quantity ?? 0);
-      if (qtyReq > prevQty) throw new Error(`สต็อกไม่พอ (คงเหลือ ${prevQty})`);
+      if (qtyReq > prevQty) throw new Error(`Not enough stok (remain ${prevQty})`);
 
       const newQty = prevQty - qtyReq;
 
@@ -199,7 +199,7 @@ form.addEventListener("submit", async (e)=>{
       });
     });
 
-    msgEl.textContent = "✅ บันทึกสำเร็จ และหักสต็อกแล้ว";
+    msgEl.textContent = "✅ Saved Sucessfully!!";
     setTimeout(()=>{ location.href = `detail.html?id=${encodeURIComponent(id)}`; }, 800);
 
   }catch(err){
