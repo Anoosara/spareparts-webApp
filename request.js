@@ -203,6 +203,7 @@ form.addEventListener("submit", async (e)=>{
     setTimeout(()=>{ location.href = `detail.html?id=${encodeURIComponent(id)}`; }, 800);
 
   }catch(err){
-    msgEl.textContent = "❌ ไม่สำเร็จ: " + (err?.message || err);
+    msgEl.textContent = "Unsuccessful: " + (err?.message || err);
   }
 });
+
