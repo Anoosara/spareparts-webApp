@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Refund Spare Part</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Refund page specific stylesheet -->
+  <link rel="stylesheet" href="refund.css" />
+</head>
+<body>
+  <header class="wrap">
+    <a class="back" href="detail.html">← Back</a>
+    <h1>Refund Spare Part</h1>
+  </header>
+
+  <main class="wrap ref-layout">
+    <!-- Left side: Spare part specification -->
+    <section class="spec-card">
+      <img id="ref-img" class="thumb" alt="">
+      <h2 id="ref-title" class="name" style="margin-top:10px"></h2>
+      <div class="spec">
+        <div><dt>No.</dt><dd id="ref-no">-</dd></div>
+        <div><dt>Serial</dt><dd id="ref-serial">-</dd></div>
+        <div><dt>Category</dt><dd id="ref-category">-</dd></div>
+        <div><dt>Location</dt><dd id="ref-location">-</dd></div>
+        <div><dt>Measurement Unit</dt><dd id="ref-unit">-</dd></div>
+        <div><dt>In Stock</dt><dd><span id="ref-qtypill" class="badge">Qty: 0</span></dd></div>
+        <div><dt>Status</dt><dd><span id="ref-status" class="badge">-</span></dd></div>
+        <div><dt>Date</dt><dd id="ref-date">-</dd></div>
+      </div>
+    </section>
+
+    <!-- Right side: Refund form -->
+    <section class="ref-form">
+      <form id="refund-form">
+        <div class="grid-2">
+          <label>
+            Refund title*
+            <input id="f-title" type="text" placeholder="Refund request title" required>
+          </label>
+          <label>
+            Unit
+            <input id="f-unit" type="text" readonly>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>
+            Returner name* 
+            <input id="f-name" type="text" placeholder="Returner name" required>
+          </label>
+          <label>
+            Quantity to refund*
+            <input id="f-qty" type="number" min="1" step="1" value="1" required>
+          </label>
+        </div>
+
+        <label>
+          Description
+          <textarea id="f-desc" rows="4" placeholder="Additional details (optional)"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button id="submitBtn" class="btn success" type="submit">Submit refund</button>
+          <a class="btn ghost" id="cancelBtn" href="#">Cancel</a>
+        </div>
+      </form>
+
+      <div id="ref-msg" class="muted" style="margin-top:10px"></div>
+    </section>
+  </main>
+
+  <!-- Page script -->
+  <script type="module" src="refund.js"></script>
+</body>
+</html>

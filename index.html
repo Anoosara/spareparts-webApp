@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spare Parts Inventory</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>Spare Part Storage Management</h1>
+
+    <div class="meta">
+      📦 <b id="count">0</b> items 
+    </div>
+
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="Search: Item / Serial / Location / Category / Status" />
+      <button id="refresh" class="btn">↻ Refresh</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="loading" class="loading">Loading…</div>
+    <div id="grid" class="grid" hidden></div>
+    <div id="empty" class="empty" hidden>No items found</div>
+  </main>
+
+  <footer class="wrap foot">
+    ใช้ฟิลด์: <code>no</code>, <code>partDescription</code>, <code>category</code>, <code>partSerialNo</code>, <code>quantity</code>, <code>measurementUnit</code>, <code>location</code>, <code>status</code>, <code>date</code>, <code>issuedBy</code>, <code>notes</code>
+  </footer>
+
+  <!-- โหลดโค้ดหลักแบบ ES module -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>

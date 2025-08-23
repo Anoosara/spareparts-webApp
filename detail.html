@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spare Part Detail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- สไตล์หลักของเว็บ -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- ชื่อไฟล์ที่ถูกต้อง: detail.css (เดิมเขียน detial.css) -->
+  <!--<link rel="stylesheet" href="detail.css" />-->
+
+  <!-- เพิ่มสไตล์เฉพาะหน้านี้เล็กน้อย -->
+  <style>
+    .detail-wrap{max-width:980px;margin:0 auto;padding:16px}
+    .detail-card{
+      display:grid;grid-template-columns:320px 1fr;gap:20px;
+      background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px
+    }
+    .detail-img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#fafafa;border-radius:10px}
+    .detail-title{margin:0 0 8px}
+    .pair{
+      display:grid;grid-template-columns:180px 1fr;gap:10px;
+      padding:8px 0;border-bottom:1px dashed var(--line)
+    }
+    .pair b{color:var(--muted)}
+    .pair:last-child{border-bottom:0}
+    .pill{display:inline-block;background:#eef2ff;color:#3730a3;padding:4px 8px;border-radius:999px;font-weight:600;font-size:12px;margin-right:6px}
+    .pill.out{background:#fee2e2;color:#991b1b}
+    .back{display:inline-block;margin-bottom:12px;text-decoration:none}
+    .muted{color:var(--muted)}
+    .actions{
+      display:flex;gap:12px;justify-content:center;margin-top:16px;
+    }
+    .btn{padding:8px 16px;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+    .btn.request{background:#28a745;color:#fff}
+    .btn.refund{background:#dc3545;color:#fff}
+    .btn.ghost{background:#eef2f7;color:#111;border:1px solid var(--line)}
+    @media (max-width:760px){ .detail-card{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="back" href="index.html">← Back</a>
+    <h1>Spare Part Detail</h1>
+  </header>
+
+  <main class="detail-wrap">
+    <div id="loading" class="loading">Loading…</div>
+    <div id="notfound" class="empty" hidden>ไม่พบข้อมูลชิ้นส่วนนี้</div>
+
+    <article id="detail" class="detail-card" hidden>
+      <img id="img" class="detail-img" alt="">
+      <div>
+        <h2 id="title" class="detail-title"></h2>
+
+        <div class="pair"><b>No.</b>               <span id="no"></span></div>
+        <div class="pair"><b>Serial</b>            <span id="serial"></span></div>
+        <div class="pair"><b>Category</b>          <span id="category"></span></div>
+        <div class="pair"><b>Quantity</b>
+          <span>
+            <span id="qtypill" class="pill"></span>
+            <span id="qty"></span>
+          </span>
+        </div>
+        <div class="pair"><b>Measurement Unit</b>  <span id="unit"></span></div>
+        <div class="pair"><b>Status</b>            
+          <span><span id="statuspill" class="pill"></span></span>
+        </div>
+        <div class="pair"><b>Location</b>          <span id="location"></span></div>
+        <div class="pair"><b>Date</b>              <span id="date"></span></div>
+        <div class="pair"><b>Issued By</b>         <span id="issuedBy"></span></div>
+        <div class="pair"><b>Notes</b>             <span id="notes"></span></div>
+      </div>
+    </article>
+
+    <!-- ปุ่มการกระทำ (ให้ JS ไปเติมลิงก์ ?id=... ภายหลัง) -->
+    <div class="actions" id="actions" hidden>
+      <a id="btnRequest" class="btn request" href="#">Request</a>
+      <a id="btnRefund"  class="btn refund"  href="#">Refund</a>
+      <a id="historyLink" class="btn ghost" href="#">View history</a>
+    </div>
+  </main>
+
+  <!-- โค้ดหลัก (จะเป็นคน set ข้อมูล + เติมลิงก์ปุ่มด้านบน) -->
+  <script type="module" src="detail.js"></script>
+
+  <!-- เผื่ออยากเติมลิงก์ปุ่มจากหน้านี้เลยก็ได้ (ไม่บังคับ เพราะใน detail.js คุณทำไว้แล้ว) -->
+  <script>
+    (function(){
+      const id = new URLSearchParams(location.search).get('id');
+      if(!id) return;
+      const q = encodeURIComponent(id);
+      const set = (sel, url)=>{ const el = document.querySelector(sel); if(el) el.href = url; };
+      set('#btnRequest', `request.html?id=${q}`);
+      set('#btnRefund',  `refund.html?id=${q}`);
+      set('#historyLink',`history.html?id=${q}`);
+      // โชว์ปุ่มเมื่อมี id
+      const actions = document.getElementById('actions');
+      if (actions) actions.hidden = false;
+    })();
+  </script>
+</body>
+</html>

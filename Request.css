@@ -1,0 +1,185 @@
+/* request.css – ใช้กับหน้า request.html (เวอร์ชันพอดีจอ) */
+:root{
+  --bg:#f7f8fa; --card:#fff; --text:#111827; --muted:#6b7280; --line:#e5e7eb; --brand:#1f2937;
+}
+
+/* หน้ากว้างสูงสุด + ขอบ */
+.page-wrap{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* โครงหน้าหลักซ้าย/ขวา */
+.req-layout{
+  display: grid;
+  grid-template-columns: minmax(0, 320px) 1fr;  /* กันคอลัมน์ซ้ายดันกว้างเกิน */
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 980px){
+  .req-layout{ grid-template-columns: 1fr; }
+}
+
+/* การ์ดสเปคฝั่งซ้าย */
+.spec-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  max-height: calc(100vh - 140px);   /* สูงสุดไม่เกินจอ */
+  overflow: auto;                     /* ถ้าเกินให้เลื่อนในกรอบ */
+}
+
+/* รูปสินค้า: ไม่ดันกรอบ, คงอัตราส่วน */
+.spec-card .thumb{
+  width:100%;
+  height: min(220px, 28vh);
+  aspect-ratio: auto;
+  object-fit: contain;
+  display:block;
+  background:#fafafa;
+  border-radius:10px;
+  margin: 0 auto;
+}
+
+/* ชื่อสินค้า (รองรับหลายคลาส/แท็ก) */
+.item-title,
+.spec-card .title,
+.spec-card h2{
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--brand);
+  margin: 8px 4px 6px;
+  display: -webkit-box;
+         /* สูงสุด 2 บรรทัด */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+/* ตารางสรุปรายการสเปค */
+.spec{
+  margin-top:10px;
+  display:grid;
+  gap:4px;
+}
+.spec > div{
+  display:grid;
+  grid-template-columns: 112px minmax(0,1fr);   /* ขวารับคำยาว ไม่ดันกรอบ */
+  gap:10px;
+  padding:6px 0;
+  border-bottom:1px dashed var(--line);
+}
+.spec > div:last-child{ border-bottom:0; }
+.spec dt{
+  color:var(--muted);
+  white-space: nowrap;
+}
+.spec dd{
+  overflow-wrap:anywhere;
+  word-break: break-word;
+}
+
+/* การ์ดฟอร์มฝั่งขวา */
+.req-form{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+}
+.req-form .grid-2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+}
+@media (max-width: 700px){
+  .req-form .grid-2{ grid-template-columns: 1fr; }
+}
+.req-form label{
+  display:grid;
+  gap:6px;
+  font-weight:600;
+  color: var(--brand);
+  font-size: 14px;
+}
+.req-form input,
+.req-form textarea,
+.req-form select{
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  outline:none;
+  background:#fff;
+}
+.req-form textarea{ min-height:96px; resize:vertical; }
+
+/* ป้ายสถานะ/จำนวน (ถ้าใช้) */
+.pill{
+  display:inline-block;
+  background:#eef2ff;
+  color:#3730a3;
+  padding:3px 8px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:12px;
+}
+.pill.out{ background:#fee2e2; color:#991b1b; }
+
+/* ปุ่ม */
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+  flex-wrap: wrap;                     /* กันล้นจอเล็ก */
+}
+.btn{
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
+  user-select:none;
+}
+.btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+/* Submit = เขียว */
+.btn.request{
+  background:linear-gradient(135deg,#4CAF50,#2E7D32);
+  color:#fff;
+  box-shadow:0 3px 8px rgba(76,175,80,.22);
+}
+.btn.request:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+
+/* Cancel = แดง */
+.btn.cancel{
+  background:linear-gradient(135deg,#F44336,#C62828);
+  color:#fff;
+  box-shadow:0 3px 8px rgba(244,67,54,.22);
+}
+.btn.cancel:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+
+/* ลิงก์ back */
+.back{ color:var(--muted); text-decoration:none }
+.back:hover{ text-decoration:underline }
+
+/* โหมดมืด */
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0b1020; --card:#121933; --text:#e6eaf5; --muted:#9aa3b2; --line:#1f2a44; }
+  .req-form input, .req-form textarea, .req-form select{
+    background:#0f172a; color:var(--text); border-color:var(--line);
+  }
+}
+
+/* หน้าจอเตี้ยมาก: ย่อรูป/ปรับสูงสุดลงอีก */
+@media (max-height: 720px){
+  .spec-card{ max-height: calc(100vh - 120px); }
+  .spec-card .thumb{ height: min(180px, 24vh); }
+  .item-title, .spec-card .title, .spec-card h2{ font-size: 14px; }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Request Spare Part</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Main stylesheet + page-specific stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="request.css" />
+</head>
+<body>
+  <main class="wrap">
+    <a href="javascript:history.back()" class="back">← Back</a>
+    <h1>Request Spare Part</h1>
+
+    <!-- loading / error -->
+    <div id="loading" class="loading">Loading…</div>
+    <div id="error" class="empty" hidden>No spare parts found</div>
+
+    <!-- Main content -->
+    <section id="content" class="req-layout" hidden>
+      <!-- Left: Spare part specification -->
+      <article class="spec-card">
+        <img id="img" class="thumb" alt="" />
+        <h2 id="partTitle" class="name" style="margin-top:10px"></h2>
+        <dl class="spec">
+          <div><dt>No.</dt><dd id="no">-</dd></div>
+          <div><dt>Serial</dt><dd id="serial">-</dd></div>
+          <div><dt>Category</dt><dd id="category">-</dd></div>
+          <div><dt>Location</dt><dd id="location">-</dd></div>
+          <div><dt>Measurement Unit</dt><dd id="unit">-</dd></div>
+          <div><dt>In Stock</dt><dd><span id="stockPill" class="badge">Qty: 0</span></dd></div>
+          <div><dt>Status</dt><dd><span id="statusPill" class="badge">-</span></dd></div>
+          <div><dt>Date</dt><dd id="date">-</dd></div>
+        </dl>
+      </article>
+
+      <!-- Right: Request form -->
+      <form id="reqForm" class="req-form">
+        <div class="grid-2">
+          <label>Request title*
+            <input id="reqTitle" required placeholder="Enter request title" />
+          </label>
+          <label>Category
+            <input id="reqCategory" list="catlist" placeholder="e.g. Spare Parts / General accessory" />
+            <datalist id="catlist">
+              <option>Spare Parts</option>
+              <option>General accessory</option>
+              <option>Prober</option>
+            </datalist>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>Requester name*
+            <input id="requester" required placeholder="Requester name" />
+          </label>
+          <label>Create on
+            <input id="reqDate" type="date" />
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label>Quantity to request*
+            <input id="reqQty" type="number" min="1" required />
+          </label>
+          <label>Unit
+            <input id="reqUnit" disabled />
+          </label>
+        </div>
+
+        <label>Description
+          <textarea id="reqDesc" rows="4" placeholder="Additional details (optional)"></textarea>
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="btn request">Submit request</button>
+          <a href="javascript:history.back()" class="btn refund">Cancel</a>
+        </div>
+
+        <!-- Message after submission -->
+        <p id="msg" class="muted" style="margin-top:10px"></p>
+      </form>
+    </section>
+  </main>
+
+  <!-- Main JS -->
+  <script type="module" src="request.js"></script>
+</body>
+</html>

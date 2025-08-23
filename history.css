@@ -1,0 +1,17 @@
+.wrap{max-width:1000px;margin:0 auto;padding:16px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.date-ctl{display:flex;gap:8px;align-items:center}
+.date-ctl input[type="date"]{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+
+.list{margin-top:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.row{display:grid;grid-template-columns:140px 1fr 120px 180px;gap:10px;padding:10px 12px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.head{background:#f5f7fb;font-weight:700}
+
+.pill{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700;background:#eef2ff;color:#3730a3}
+.pill.out{background:#fee2e2;color:#991b1b}
+.muted{color:var(--muted)}
+
+.more-wrap{display:flex;justify-content:center;margin:16px 0}
+.btn{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer}
+.btn:hover{background:#f4f6f9}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spareparts Image URL Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="img-check.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>Spareparts Image URL Checker</h1>
+    <div id="summary" class="muted" hidden>...</div>
+  </header>
+
+  <main class="wrap">
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="ค้นหาชื่อชิ้นส่วน / สถานะ (ok, fail, missing)" />
+      <label class="chk">
+        <input id="onlyBad" type="checkbox" />
+        โชว์เฉพาะที่มีปัญหา (fail / missing)
+      </label>
+      <button id="reload" class="btn">↻ Reload</button>
+    </div>
+
+    <div id="loading" class="loading">Loading...</div>
+
+    <section id="table" class="table" hidden>
+      <div class="thead row">
+        <div>#</div>
+        <div>Part</div>
+        <div>From</div>
+        <div>Status / URL</div>
+        <div>Preview</div>
+      </div>
+      <div id="tbody"></div>
+    </section>
+
+    <div id="empty" class="empty" hidden>ไม่พบรายการ</div>
+
+    <p class="note wrap muted">
+      หมายเหตุ: ถ้าใช้ Google Drive ให้ตั้งสิทธิ์ไฟล์เป็น <b>Anyone with the link</b> /
+      <b>Anyone in your org</b> และลิงก์รูปควรอยู่ในรูปแบบ
+      <code>https://drive.google.com/uc?export=view&id=FILE_ID</code>
+    </p>
+  </main>
+
+  <!-- โค้ดหลัก -->
+  <script type="module" src="img-check.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Drive image test</title>
+<style>
+  body{font:14px/1.5 system-ui, sans-serif; padding:20px}
+  section{margin:16px 0; border:1px dashed #ddd; padding:12px; border-radius:8px}
+  img{max-width:320px; display:block; margin-top:8px; border:1px solid #eee; padding:4px; background:#fafafa}
+  code{background:#f6f6f6; padding:2px 6px; border-radius:6px}
+</style>
+
+<h1>Google Drive image test</h1>
+
+<script>
+  const FILE_ID = "1lgTN9_ILPM7TSNtZoWSXdvO_dGFrsQMW";
+
+  const urls = {
+    uc_view:       `https://drive.google.com/uc?export=view&id=${FILE_ID}`,
+    uc_download:   `https://drive.google.com/uc?export=download&id=${FILE_ID}`,
+    thumbnail:     `https://drive.google.com/thumbnail?id=${FILE_ID}&sz=w1000`,
+  };
+
+  function blk(title, url){
+    const s = document.createElement('section');
+    s.innerHTML = `
+      <div><b>${title}</b> — <code>${url}</code> — <a href="${url}" target="_blank">open</a></div>
+      <img referrerpolicy="no-referrer" src="${url}" alt="">
+    `;
+    document.body.appendChild(s);
+  }
+
+  blk("uc?export=view",     urls.uc_view);
+  blk("uc?export=download", urls.uc_download);
+  blk("thumbnail?&sz=w1000",urls.thumbnail);
+</script>
+
+<p>ถ้า <code>open</code> เปิดเป็นภาพได้ แต่รูปใน &lt;img&gt; ไม่ขึ้น ให้กด F12 ดูแท็บ <b>Network</b> และ <b>Console</b>
+ว่ามีสถานะ 403/404 หรือ CORS/block อะไรขึ้นมาบ้าง</p>

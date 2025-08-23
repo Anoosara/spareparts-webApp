@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transaction History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="history.css" />
+</head>
+<body>
+  <header class="wrap">
+    <a class="back" href="index.html">← Back</a>
+    <h1>Transaction History</h1>
+
+    <div class="toolbar">
+      <label class="date-ctl">
+        Date:
+        <input id="day" type="date" />
+      </label>
+      <button id="reload" class="btn">Reload</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="loading" class="loading">Loading...</div>
+    <div id="empty" class="empty" hidden>No history.</div>
+
+    <section id="list" class="list" hidden></section>
+
+    <div class="more-wrap" id="moreWrap" hidden>
+      <button id="loadMore" class="btn">Load more</button>
+    </div>
+  </main>
+
+  <script type="module" src="history.js"></script>
+</body>
+</html>
