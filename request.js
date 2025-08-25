@@ -35,7 +35,7 @@ const dateEl      = document.getElementById('date');
 
 const form        = document.getElementById('reqForm');
 const reqTitle    = document.getElementById('reqTitle');
-const reqCategory = document.getElementById('reqCategory');
+// ❌ removed: const reqCategory = document.getElementById('reqCategory');
 const requester   = document.getElementById('requester');
 const reqDate     = document.getElementById('reqDate');
 const reqQty      = document.getElementById('reqQty');
@@ -59,15 +59,15 @@ const toInt = (v)=> {
   return Number.isFinite(n) ? Math.floor(n) : 0;
 };
 
-// แปลงลิงก์ Google Drive ให้โหลดกับ <img> ได้ชัวร์
+// Google Drive → direct thumbnail URL (works with <img>)
 function normalizeDriveUrl(raw){
   if (!raw) return "";
   const s = String(raw).trim();
-  let m = s.match(/\/file\/d\/([^/]+)\//);   // /file/d/ID/view
+  let m = s.match(/\/file\/d\/([^/]+)\//);
   if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;
-  m = s.match(/[?&]id=([^&]+)/);             // ?id=ID
+  m = s.match(/[?&]id=([^&]+)/);
   if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;
-  return s;                                  // URL ภายนอก/Storage
+  return s;
 }
 function pickImageUrl(d){
   const raw = d.imageURL ?? d.imageUrl ?? d.photoUrl ?? "";
@@ -90,7 +90,7 @@ let partData = null;
   if (!snap.exists()){ errorEl.hidden = false; return; }
   partData = snap.data();
 
-  // fill spec
+  // Fill spec (left card)
   const img = pickImageUrl(partData);
   imgEl.setAttribute("referrerpolicy", "no-referrer");
   imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = FALLBACK_IMG; };
@@ -111,13 +111,12 @@ let partData = null;
   statusPill.textContent = partData.status || "-";
   dateEl.textContent     = toDateString(partData.date || partData.dated_added);
 
-  // preset form
+  // Form presets
   reqUnit.value = partData.measurementUnit || "";
   reqQty.min = 1;
   reqQty.max = Math.max(qty, 1);
   reqQty.value = 1;
 
-  // default date = วันนี้
   const today = new Date();
   today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
   reqDate.value = today.toISOString().slice(0,10);
@@ -127,7 +126,7 @@ let partData = null;
   loadingEl.textContent = "Error: " + (err?.message || err);
 });
 
-/* ---------- Submit (ตัดสต็อก + log + เก็บฟอร์ม) ---------- */
+/* ---------- Submit (deduct stock + log + save form) ---------- */
 form.addEventListener("submit", async (e)=>{
   e.preventDefault();
   msgEl.textContent = "";
@@ -136,7 +135,7 @@ form.addEventListener("submit", async (e)=>{
 
   const qtyReq = toInt(reqQty.value);
   if (!reqTitle.value.trim() || !requester.value.trim() || qtyReq < 1){
-    msgEl.textContent = "Please fill in complete information";
+    msgEl.textContent = "Please fill in all required fields and a valid quantity.";
     return;
   }
 
@@ -147,34 +146,34 @@ form.addEventListener("submit", async (e)=>{
 
     await runTransaction(db, async (tx)=>{
       const partSnap = await tx.get(partRef);
-      if (!partSnap.exists()) throw new Error("This part was not found");
+      if (!partSnap.exists()) throw new Error("This part was not found.");
 
       const d = partSnap.data();
       const prevQty = toInt(d.quantity ?? 0);
-      if (qtyReq > prevQty) throw new Error(`Not enough stok (remain ${prevQty})`);
+      if (qtyReq > prevQty) throw new Error(`Not enough stock (remaining ${prevQty}).`);
 
       const newQty = prevQty - qtyReq;
 
-      // 1) อัปเดตสต็อก
+      // 1) update stock
       tx.update(partRef, { quantity: newQty });
 
-      // 2) เพิ่ม Log (ระบุว่า request และจำนวนที่เบิก)
+      // 2) add log
       const logRef = doc(logsCol);
       tx.set(logRef, {
         type: "request",
         partId: id,
         partDescription: d.partDescription || d.name || "",
         unit: d.measurementUnit || "",
-        qty: qtyReq,                  // เก็บเป็นจำนวนที่เบิก (ค่าบวก)
+        qty: qtyReq,           // positive number = requested amount
         prevQty,
         newQty,
         title: reqTitle.value.trim(),
         userName: requester.value.trim(),
-        note: reqDesc.value.trim(),
+        note: (reqDesc.value || "").trim(),
         createdAt: serverTimestamp(),
       });
 
-      // 3) เก็บแบบฟอร์ม (สำเนา)
+      // 3) save submitted form (snapshot)
       const formRef = doc(formsCol);
       tx.set(formRef, {
         partId: id,
@@ -187,7 +186,7 @@ form.addEventListener("submit", async (e)=>{
         availableBefore: prevQty,
 
         requestTitle: reqTitle.value.trim(),
-        requestCategory: (reqCategory.value || "").trim(),
+        // ❌ removed: requestCategory
         requester: requester.value.trim(),
         qty: qtyReq,
         description: (reqDesc.value || "").trim(),
@@ -199,11 +198,10 @@ form.addEventListener("submit", async (e)=>{
       });
     });
 
-    msgEl.textContent = "✅ Saved Sucessfully!!";
+    msgEl.textContent = "✅ Saved successfully!";
     setTimeout(()=>{ location.href = `detail.html?id=${encodeURIComponent(id)}`; }, 800);
 
   }catch(err){
-    msgEl.textContent = "Unsuccessful: " + (err?.message || err);
+    msgEl.textContent = "❌ Unsuccessful: " + (err?.message || err);
   }
 });
-
